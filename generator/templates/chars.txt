@@ -1,0 +1,8 @@
+#
+# Each line in this file contains a sequence of characters that are homoglyphs.
+#
+# This file was automatically generated, be careful about editing it - your changes may be
+# overwritten if someone runs the generator script again.
+#
+# Source code for this project available from: http://github.com/codebox/homoglyph
+#

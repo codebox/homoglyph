@@ -1,0 +1,9 @@
+#
+# Each line in this file contains a comma-separated list of Unicode codepoints that are homoglyphs,
+# codepoint values are given in hexadecimal.
+#
+# This file was automatically generated, be careful about editing it - your changes may be
+# overwritten if someone runs the generator script again.
+#
+# Source code for this project available from: http://github.com/codebox/homoglyph
+#

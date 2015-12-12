@@ -14,6 +14,7 @@ I have tried to compile a list of all the homoglyphs I could find, and to make t
 * Here is a [sorted text file with one group of homoglyphs on each line](https://github.com/codebox/homoglyph/blob/master/raw_data/chars.txt)
 * Here is a similar file which contains [the Unicode codepoint hexadecimal values for each character](https://github.com/codebox/homoglyph/blob/master/raw_data/char_codes.txt)
 * Here is a [JavaScript file containing a homoglyph-aware search function](https://github.com/codebox/homoglyph/blob/master/javascript/src/homoglyph.js) - (see notes below). The file is self-contained with no external dependencies, and contains a single function which accepts a string of text to be searched, and a list of 'target words' which must be detected. The function will find any occurrences of the target words even if some characters have been replaced with homoglyphs ([these tests](https://rawgit.com/codebox/homoglyph/master/javascript/tests/js/DataTestsRunner.html) show all the character substitutions that it can detect)
+* Here is the JavaScript code described above, packaged as a [Node.js module via npm](https://www.npmjs.com/package/homoglyph-search)
 * Here is a [Java class file containing a homoglyph-aware search method](https://github.com/codebox/homoglyph/blob/master/java/src/Homoglyph.java) - (see notes below)
 
 ## JavaScript and Unicode

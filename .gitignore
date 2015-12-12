@@ -1,2 +1,5 @@
 *.pyc
 .DS_Store
+.idea
+node_modules
+*.iml

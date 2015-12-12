@@ -1,8 +1,8 @@
 from output_builder import OutputBuilder
 
 class OutputJS(OutputBuilder):
-    def __init__(self, output_dir, template_dir):
-        self.file_name = 'homoglyph.js'
+    def __init__(self, file_name, output_dir, template_dir):
+        self.file_name = file_name
         OutputBuilder.__init__(self, output_dir, template_dir)
 
     def _make_map_for_required_chars(self, chars, char_manager):

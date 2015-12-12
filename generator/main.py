@@ -16,4 +16,5 @@ if __name__ == '__main__':
 
     OutputCharCodes('raw_data', TEMPLATES_DIR).create(cm)
     OutputChars('raw_data', TEMPLATES_DIR).create(cm)
-    OutputJS('javascript/src', TEMPLATES_DIR).create(cm, CHARS)
+    OutputJS('homoglyph.js', 'javascript/src', TEMPLATES_DIR).create(cm, CHARS)
+    OutputJS('index.js','node', TEMPLATES_DIR).create(cm, CHARS)

@@ -36,3 +36,5 @@ As well as creating general confusion, homoglyphs can cause particular problems 
 
 * 1.0.0 Initial release   
 * 1.0.1 Added README 
+* 1.0.2 Totally failed to follow basic instructions on how to add engines config to package.json - don't use this verion
+* 1.0.3 Added engines config to package.json

@@ -1,0 +1,78 @@
+group = "net.codebox"
+version = "1.0.0"
+
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'maven'
+apply plugin: 'signing'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+}
+
+signing {
+    sign configurations.archives
+}
+
+task javadocJar(type: Jar) {
+    classifier = 'javadoc'
+    from javadoc
+}
+
+task sourcesJar(type: Jar) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+artifacts {
+    archives javadocJar, sourcesJar
+}
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+
+            repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2") {
+                authentication(userName: ossrhUsername, password: ossrhPassword)
+            }
+
+            snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots") {
+                authentication(userName: ossrhUsername, password: ossrhPassword)
+            }
+
+            pom.project {
+                name 'Homoglyph'
+                packaging 'jar'
+                artifactId 'homoglyph'
+                description 'Library providing a homoplyph-aware text search function'
+                url 'https://github.com/codebox/homoglyph'
+
+                scm {
+                    connection 'scm:git@github.com/codebox/homoglyph.git'
+                    developerConnection 'scm:git@github.com/codebox/homoglyph.git'
+                    url 'https://github.com/codebox/homoglyph'
+                }
+
+                licenses {
+                    license {
+                        name 'MIT License'
+                        url 'https://opensource.org/licenses/MIT'
+                    }
+                }
+
+                developers {
+                    developer {
+                        id 'codebox'
+                        name 'Rob Dawson'
+                        email 'rob@codebox.net'
+                    }
+                }
+            }
+        }
+    }
+}

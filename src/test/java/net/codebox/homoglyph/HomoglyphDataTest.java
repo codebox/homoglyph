@@ -1,3 +1,6 @@
+package net.codebox.homoglyph;
+
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -14,7 +17,7 @@ public class HomoglyphDataTest {
 
     @Before
     public void setup() throws IOException {
-        List<Set<Integer>> charCodes = Homoglyph.parseCharCodesFile("src/char_codes.txt");
+        List<Set<Integer>> charCodes = Homoglyph.parseCharCodesFile("raw_data/char_codes.txt");
         homoglyph = new Homoglyph(charCodes);
     }
 

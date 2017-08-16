@@ -3,3 +3,6 @@
 .idea
 node_modules
 *.iml
+build
+.gradle
+gradle*

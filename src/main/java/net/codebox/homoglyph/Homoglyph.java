@@ -1,3 +1,5 @@
+package net.codebox.homoglyph;
+
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -12,7 +14,7 @@ import java.util.*;
  * You can supply your own list of homoglyphs, or use the char_codes.txt which should accompany this source file.
  * You can find the latest version of char_codes.txt at https://github.com/codebox/homoglyph
  *
- * @author Rob Dawson <rob@codebox.org.uk>
+ * @author Rob Dawson
  */
 public class Homoglyph {
     private static final List<Set<Integer>> homoglyphs = new ArrayList<Set<Integer>>();
@@ -24,9 +26,9 @@ public class Homoglyph {
      * must be represented using Integer rather than Character values because some are too large to be held by the
      * 16-bit Character type.
      *
-     * @param homoglyphs
+     * @param homoglyphs a List of Sets, with each Set containing a group of Unicode codepoints that are homoglyphs
      */
-    public Homoglyph(List<Set<Integer>> homoglyphs){
+    public Homoglyph(final List<Set<Integer>> homoglyphs){
         this.homoglyphs.addAll(homoglyphs);
     }
 

@@ -1,6 +1,5 @@
 package net.codebox.homoglyph;
 
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -34,69 +33,69 @@ public class HomoglyphLogicTest {
 
     @Test
     public void whenTextDoesNotContainAnyTargetWords_thenNoMatchesFound(){
-        List<Homoglyph.SearchResult> r = homoglyph.search("Nothing to see here", "TARGET");
+        List<SearchResult> r = homoglyph.search("Nothing to see here", "TARGET");
         assertEquals(0, r.size());
     }
 
     @Test
     public void whenTextIdenticalToTargetWord_thenMatchFound(){
-        List<Homoglyph.SearchResult> r = homoglyph.search("SOIL", "SOIL");
+        List<SearchResult> r = homoglyph.search("SOIL", "SOIL");
         assertEquals(1, r.size());
         checkResult(r.get(0), 0, "SOIL", "SOIL");
     }
 
     @Test
     public void whenTextContainsTargetWord_thenMatchFound(){
-        List<Homoglyph.SearchResult> r = homoglyph.search("I have SOIL in my garden", "SOIL");
+        List<SearchResult> r = homoglyph.search("I have SOIL in my garden", "SOIL");
         assertEquals(1, r.size());
         checkResult(r.get(0), 7, "SOIL", "SOIL");
     }
 
     @Test
     public void whenTextContainsOneOfTheTargetWords_thenMatchFound(){
-        List<Homoglyph.SearchResult> r = homoglyph.search("I have SOIL in my garden", "CHEESE", "SOIL", "FALCONS");
+        List<SearchResult> r = homoglyph.search("I have SOIL in my garden", "CHEESE", "SOIL", "FALCONS");
         assertEquals(1, r.size());
         checkResult(r.get(0), 7, "SOIL", "SOIL");
     }
 
     @Test
     public void whenTargetWordContainsHomoglyphs_thenMatchFound(){
-        List<Homoglyph.SearchResult> r = homoglyph.search("I have 501L in my garden", Arrays.asList("CHEESE", "SOIL", "FALCONS"));
+        List<SearchResult> r = homoglyph.search("I have 501L in my garden", Arrays.asList("CHEESE", "SOIL", "FALCONS"));
         assertEquals(1, r.size());
         checkResult(r.get(0), 7, "SOIL", "501L");
     }
 
     @Test
     public void whenTargetWordIsAtStartOfText_thenMatchFound(){
-        List<Homoglyph.SearchResult> r = homoglyph.search("FALC0N5 fly", Arrays.asList("CHEESE", "SOIL", "FALCONS"));
+        List<SearchResult> r = homoglyph.search("FALC0N5 fly", Arrays.asList("CHEESE", "SOIL", "FALCONS"));
         assertEquals(1, r.size());
         checkResult(r.get(0), 0, "FALCONS", "FALC0N5");
     }
 
     @Test
     public void whenTargetWordIsAtEndOfText_thenMatchFound(){
-        List<Homoglyph.SearchResult> r = homoglyph.search("I like FALC0N5", Arrays.asList("CHEESE", "SOIL", "FALCONS"));
+        List<SearchResult> r = homoglyph.search("I like FALC0N5", Arrays.asList("CHEESE", "SOIL", "FALCONS"));
         assertEquals(1, r.size());
         checkResult(r.get(0), 7, "FALCONS", "FALC0N5");
     }
 
     @Test
     public void whenTargetWordHasDifferentCaseInText_thenMatchFound(){
-        List<Homoglyph.SearchResult> r = homoglyph.search("I like fALc0N5 fly", "Falcons");
+        List<SearchResult> r = homoglyph.search("I like fALc0N5 fly", "Falcons");
         assertEquals(1, r.size());
         checkResult(r.get(0), 7, "Falcons", "fALc0N5");
     }
 
     @Test
     public void whenTargetWordContainsMultipleMatchesWithDifferentHomoglyphs_thenMatchFound(){
-        List<Homoglyph.SearchResult> r = homoglyph.search("I have 501L and FALC0N5 in my garden, I prefer the SO|L", Arrays.asList("CHEESE", "SOIL", "FALCONS"));
+        List<SearchResult> r = homoglyph.search("I have 501L and FALC0N5 in my garden, I prefer the SO|L", Arrays.asList("CHEESE", "SOIL", "FALCONS"));
         assertEquals(3, r.size());
         checkResult(r.get(0), 7, "SOIL", "501L");
         checkResult(r.get(1), 51, "SOIL", "SO|L");
         checkResult(r.get(2), 16, "FALCONS", "FALC0N5");
     }
 
-    private void checkResult(Homoglyph.SearchResult result, int expectedIndex, String expectedWord, String expectedMatch){
+    private void checkResult(SearchResult result, int expectedIndex, String expectedWord, String expectedMatch){
         assertEquals(expectedIndex, result.index);
         assertEquals(expectedWord, result.word);
         assertEquals(expectedMatch, result.match);

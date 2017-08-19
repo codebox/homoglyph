@@ -3,6 +3,8 @@
 .idea
 node_modules
 *.iml
+*.ipr
+*.iws
 build
 .gradle
 gradle*

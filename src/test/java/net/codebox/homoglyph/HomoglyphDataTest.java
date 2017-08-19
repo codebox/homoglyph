@@ -1,12 +1,10 @@
 package net.codebox.homoglyph;
 
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -46,7 +44,7 @@ public class HomoglyphDataTest {
     }
 
     private void check(String text, String targetWord){
-        List<Homoglyph.SearchResult> r = homoglyph.search(text, Arrays.asList(targetWord));
+        List<SearchResult> r = homoglyph.search(text, Arrays.asList(targetWord));
         assertEquals(1, r.size());
         assertEquals(targetWord, r.get(0).word);
     }

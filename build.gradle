@@ -1,10 +1,14 @@
 group = "net.codebox"
-version = "1.0.0"
+version = "1.0.2"
 
 apply plugin: 'java'
 apply plugin: 'idea'
 apply plugin: 'maven'
 apply plugin: 'signing'
+
+sourceSets.main.resources {
+    srcDirs = ["raw_data"]; include "char_codes.txt"
+}
 
 repositories {
     mavenCentral()

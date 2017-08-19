@@ -1,9 +1,5 @@
 package net.codebox.homoglyph;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.*;
 
 /**
@@ -64,7 +60,6 @@ public class Homoglyph {
         return search(text, Arrays.asList(targetWords));
     }
 
-
     private Collection<SearchResult> checkForWord(final CodePoints text, final CodePoints targetWord) {
         final Collection<SearchResult> results = new ArrayList<SearchResult>();
 
@@ -104,6 +99,11 @@ public class Homoglyph {
         public int index;
         public String match;
         public String word;
+
+        @Override
+        public String toString() {
+            return String.format("'%s' at position %s matches '%s'", match, index, word);
+        }
     }
 
     public static class CodePoints{
@@ -165,27 +165,4 @@ public class Homoglyph {
         }
     }
 
-    public static List<Set<Integer>> parseCharCodesFile(final String path) throws IOException {
-        final List<Set<Integer>> homoglyphs = new ArrayList<Set<Integer>>();
-        final BufferedReader reader = new BufferedReader(new FileReader(path));
-
-        String line;
-        while((line = reader.readLine()) != null){
-            line = line.trim();
-            if (line.startsWith("#") || line.length() == 0){
-                continue;
-            }
-            final Set<Integer> set = new HashSet<Integer>();
-            for (String charCode : line.split(",")) {
-                try {
-                    set.add(Integer.parseInt(charCode, 16));
-                } catch (NumberFormatException ex){
-                    // ignore badly formatted lines
-                }
-            }
-            homoglyphs.add(set);
-        }
-
-        return homoglyphs;
-    }
 }

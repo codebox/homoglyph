@@ -1,4 +1,45 @@
 # Homoglyphs
+
+## Java Quick Start
+
+Include the Homoglyph library in your project by downloading it from Maven Central:
+
+```xml
+<dependency>
+    <groupId>net.codebox</groupId>
+    <artifactId>homoglyph</artifactId>
+    <version>1.0.2</version>
+</dependency>
+```
+
+Then use the `HomoglyphBuilder` class to build a `Homoglyph` object, and call its `search()` method with the text you want
+to search, and the word/s you want to search for:
+
+```java
+String textToSearch = "Get free ϲrEd1ᴛ";
+String[] bannedWords = new String[]{"credit"};
+Homoglyph homoglyph = HomoglyphBuilder.build();
+List<SearchResult> results = homoglyph.search(textToSearch, bannedWords);
+```
+
+## JavaScript Quick Start
+
+Include the Homoglyph library in your project by downloading it from NPM:
+
+```
+npm install homoglyph-search
+```
+
+Then call the module's `search()` function with the text you want to search, and the word/s you want to search for:
+
+```javascript
+var homoglyphSearch = require('homoglyph-search');
+var bannedWords = ['credit'];
+var textToSearch = 'Get free ϲrEd1ᴛ';
+var results = homoglyphSearch.search(textToSearch, bannedWords);
+```
+
+## Background
 Homoglyphs are characters with different meanings, that look similar/identical to each other - like the digit '0' and the capital letter 'O' for example.
 
 Homoglyphs within a single alphabet tend to be rare for obvious reasons. These days, however, the internet runs on Unicode which means that it is possible to mix the letters from many [different languages](http://www.unicode.org/cldr/charts/latest/supplemental/languages_and_scripts.html) together in one place, massively increasing the number of homoglyphs.

@@ -35,6 +35,9 @@ public class HomoglyphBuilder {
     /**
      * Parses the specified file and uses it to construct a populated Homoglyph object.
      *
+     * @param path the path to a file containing a list of homoglyphs (see the bundled char_codes.txt
+     *             file for an example of the required format)
+     *
      * @return a Homoglyph object populated using the contents of the specified file
      *
      * @throws IOException if the specified file cannot be read
@@ -45,6 +48,9 @@ public class HomoglyphBuilder {
 
     /**
      * Consumes the supplied Reader and uses it to construct a populated Homoglyph object.
+     *
+     * @param reader a Reader object that provides access to homoglyph data (see the bundled
+     *               char_codes.txt file for an example of the required format)
      *
      * @return a Homoglyph object populated using the data returned by the Reader object
      *

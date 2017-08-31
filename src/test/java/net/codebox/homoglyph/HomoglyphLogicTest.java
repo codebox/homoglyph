@@ -6,6 +6,8 @@ import org.junit.Test;
 import java.io.IOException;
 import java.util.*;
 
+import net.codebox.homoglyph.Homoglyph.SearchResult;
+
 import static org.junit.Assert.*;
 
 public class HomoglyphLogicTest {

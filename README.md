@@ -8,7 +8,7 @@ Include the Homoglyph library in your project by downloading it from Maven Centr
 <dependency>
     <groupId>net.codebox</groupId>
     <artifactId>homoglyph</artifactId>
-    <version>1.0.2</version>
+    <version>1.0.3</version>
 </dependency>
 ```
 
@@ -44,7 +44,7 @@ Homoglyphs are characters with different meanings, that look similar/identical t
 
 Homoglyphs within a single alphabet tend to be rare for obvious reasons. These days, however, the internet runs on Unicode which means that it is possible to mix the letters from many [different languages](http://www.unicode.org/cldr/charts/latest/supplemental/languages_and_scripts.html) together in one place, massively increasing the number of homoglyphs.
 
-For example, each of the 27 characters shown below (all rendered using the same font) are different, with their own unique Unicode codepoint values, but they all look more-or-less like the capital letter 'A':
+For example, each of the characters shown below (all rendered using the same font) are different, with their own unique Unicode codepoint values, but they all look more-or-less like the capital letter 'A':
 
 A Α А Ꭺ ᗅ ᴀ ꓮ Ａ 𐊠 𝐀 𝐴 𝑨 𝒜 𝓐 𝔄 𝔸 𝕬 𝖠 𝗔 𝘈 𝘼 𝙰 𝚨 𝛢 𝜜 𝝖 𝞐
 

@@ -6,17 +6,17 @@ import org.junit.Test;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
+
+import net.codebox.homoglyph.Homoglyph.SearchResult;
 
 public class HomoglyphDataTest {
     private Homoglyph homoglyph;
 
     @Before
     public void setup() throws IOException {
-        List<Set<Integer>> charCodes = Homoglyph.parseCharCodesFile("raw_data/char_codes.txt");
-        homoglyph = new Homoglyph(charCodes);
+        homoglyph = HomoglyphBuilder.build();
     }
 
     @Test

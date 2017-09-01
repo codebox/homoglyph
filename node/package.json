@@ -1,6 +1,6 @@
 {
   "name": "homoglyph-search",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "A homoglyph-aware text search utility, allows you to search a string for a given word even if that word has been disguised using homoglyph characters",
   "main": "index.js",
   "engines" : {

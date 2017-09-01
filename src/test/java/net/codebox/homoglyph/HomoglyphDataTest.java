@@ -22,6 +22,7 @@ public class HomoglyphDataTest {
     @Test
     public void testLowerCase(){
         check("free ϲгеԁıｔ!", "credit");
+        check("free ϲrEd1ᴛ", "credit");
         check("see best ｗ℮Ꮟｃ⍺ｍｓ here", "webcams");
         check("get blue ｐɪ|ǀs", "pills");
         check("саｓℎ prizes!!", "cash");

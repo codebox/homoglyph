@@ -29,6 +29,7 @@ public class HomoglyphBuilder {
             throw new MissingResourceException("Unable to read " + CHAR_CODES_FILE,
                     HomoglyphBuilder.class.getName(), CHAR_CODES_FILE);
         }
+
         return build(new InputStreamReader(is));
     }
 
@@ -58,23 +59,24 @@ public class HomoglyphBuilder {
      */
     public static Homoglyph build(final Reader reader) throws IOException {
         final List<Set<Integer>> homoglyphs = new ArrayList<Set<Integer>>();
-        final BufferedReader bufferedReader = new BufferedReader(reader);
 
-        String line;
-        while((line = bufferedReader.readLine()) != null){
-            line = line.trim();
-            if (line.startsWith("#") || line.length() == 0){
-                continue;
-            }
-            final Set<Integer> set = new HashSet<Integer>();
-            for (String charCode : line.split(",")) {
-                try {
-                    set.add(Integer.parseInt(charCode, 16));
-                } catch (NumberFormatException ex){
-                    // ignore badly formatted lines
+        try (final BufferedReader bufferedReader = new BufferedReader(reader)) {
+            String line;
+            while((line = bufferedReader.readLine()) != null){
+                line = line.trim();
+                if (line.startsWith("#") || line.length() == 0){
+                    continue;
                 }
+                final Set<Integer> set = new HashSet<Integer>();
+                for (String charCode : line.split(",")) {
+                    try {
+                        set.add(Integer.parseInt(charCode, 16));
+                    } catch (NumberFormatException ex){
+                        // ignore badly formatted lines
+                    }
+                }
+                homoglyphs.add(set);
             }
-            homoglyphs.add(set);
         }
 
         return new Homoglyph(homoglyphs);

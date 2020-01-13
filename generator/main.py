@@ -8,7 +8,7 @@ from output_js_tests import OutputJSTests
 TEMPLATES_DIR = 'generator/templates'
 DATA_DIR      = 'generator/source_data'
 
-CHARS = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
+CHARS = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-.'
 
 if __name__ == '__main__':
     cm  = CharacterManager()

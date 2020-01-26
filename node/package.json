@@ -1,6 +1,6 @@
 {
   "name": "homoglyph-search",
-  "version": "1.1.1",
+  "version": "1.2.0",
   "description": "A homoglyph-aware text search utility, allows you to search a string for a given word even if that word has been disguised using homoglyph characters",
   "main": "index.js",
   "engines" : {
@@ -21,7 +21,7 @@
     "lookalike",
     "strings"
   ],
-  "author": "Rob Dawson <rob@codebox.org.uk> (http://codebox.org.uk)",
+  "author": "Rob Dawson <rob@codebox.net> (http://codebox.net)",
   "license": "MIT",
   "tonicExampleFilename" : "example/example.js",
   "bugs": {

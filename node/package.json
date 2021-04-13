@@ -1,10 +1,10 @@
 {
   "name": "homoglyph-search",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "A homoglyph-aware text search utility, allows you to search a string for a given word even if that word has been disguised using homoglyph characters",
   "main": "index.js",
-  "engines" : {
-    "node" : ">=4.0.0"
+  "engines": {
+    "node": ">=4.0.0"
   },
   "scripts": {
     "test": "cd test && node test.js"
@@ -23,7 +23,7 @@
   ],
   "author": "Rob Dawson <rob@codebox.net> (http://codebox.net)",
   "license": "MIT",
-  "tonicExampleFilename" : "example/example.js",
+  "tonicExampleFilename": "example/example.js",
   "bugs": {
     "url": "https://github.com/codebox/homoglyph/issues"
   },

@@ -1,11 +1,7 @@
 package net.codebox.homoglyph;
 
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.*;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 /**
  * Helper class providing methods that supply populated Homoglyph objects.
@@ -58,7 +54,7 @@ public class HomoglyphBuilder {
      * @throws IOException if the specified Reader cannot be read
      */
     public static Homoglyph build(final Reader reader) throws IOException {
-        final List<Set<Integer>> homoglyphs = new ArrayList<Set<Integer>>();
+        final List<Set<Integer>> homoglyphs = new ArrayList<>();
 
         try (final BufferedReader bufferedReader = new BufferedReader(reader)) {
             String line;
@@ -67,7 +63,7 @@ public class HomoglyphBuilder {
                 if (line.startsWith("#") || line.length() == 0){
                     continue;
                 }
-                final Set<Integer> set = new HashSet<Integer>();
+                final Set<Integer> set = new HashSet<>();
                 for (String charCode : line.split(",")) {
                     try {
                         set.add(Integer.parseInt(charCode, 16));

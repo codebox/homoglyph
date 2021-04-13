@@ -39,3 +39,4 @@ As well as creating general confusion, homoglyphs can cause particular problems 
 * 1.0.2 Totally failed to follow basic instructions on how to add engines config to package.json - don't use this version
 * 1.0.3 Added engines config to package.json
 * 1.0.4 Added example code with Tonic integration
+* 1.2.1 Updates to homoglyph list, minor code changes

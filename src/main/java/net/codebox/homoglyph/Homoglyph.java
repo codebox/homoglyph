@@ -13,7 +13,7 @@ import java.util.*;
  * @author Rob Dawson
  */
 public class Homoglyph {
-    private static final List<Set<Integer>> homoglyphs = new ArrayList<Set<Integer>>();
+    private final List<Set<Integer>> homoglyphs = new ArrayList<>();
 
     private final CachingLookup cache = new CachingLookup();
 
@@ -24,7 +24,7 @@ public class Homoglyph {
      *
      * @param homoglyphs a List of Sets, with each Set containing a group of Unicode codepoints that are homoglyphs
      */
-    public Homoglyph(final List<Set<Integer>> homoglyphs){
+    public Homoglyph(final List<Set<Integer>> homoglyphs) {
         this.homoglyphs.addAll(homoglyphs);
     }
 
@@ -36,8 +36,8 @@ public class Homoglyph {
      * @param targetWords words to be located
      * @return a List containing the results of the search, if no matches were found an empty list will be returned
      */
-    public List<SearchResult> search(final String text, final Collection<String> targetWords){
-        final List<SearchResult> allResults = new ArrayList<SearchResult>();
+    public List<SearchResult> search(final String text, final Collection<String> targetWords) {
+        final List<SearchResult> allResults = new ArrayList<>();
 
         final CodePoints textCodepoints = new CodePoints(text);
 
@@ -56,12 +56,12 @@ public class Homoglyph {
      * @param targetWords words to be located
      * @return a List containing the results of the search, if no matches were found an empty list will be returned
      */
-    public List<SearchResult> search(final String text, final String... targetWords){
+    public List<SearchResult> search(final String text, final String... targetWords) {
         return search(text, Arrays.asList(targetWords));
     }
 
     private Collection<SearchResult> checkForWord(final CodePoints text, final CodePoints targetWord) {
-        final Collection<SearchResult> results = new ArrayList<SearchResult>();
+        final Collection<SearchResult> results = new ArrayList<>();
 
         int lastIndex = text.getLength() - targetWord.getLength();
         for (int i = 0; i <= lastIndex; i++) {
@@ -73,8 +73,8 @@ public class Homoglyph {
         return results;
     }
 
-    private boolean hasWordAtIndex(final CodePoints text, final CodePoints targetWord, final int index){
-        for (int i=0; i<targetWord.getLength(); i++){
+    private boolean hasWordAtIndex(final CodePoints text, final CodePoints targetWord, final int index) {
+        for (int i=0; i<targetWord.getLength(); i++) {
             final int targetCharLower = Character.toLowerCase(targetWord.getValue(i));
             final int targetCharUpper = Character.toUpperCase(targetWord.getValue(i));
             final int textChar = text.getValue(index + i);
@@ -106,7 +106,7 @@ public class Homoglyph {
         }
     }
 
-    public static class CodePoints{
+    public static class CodePoints {
         private final Integer[] codepoints;
         private final String text;
 
@@ -126,15 +126,15 @@ public class Homoglyph {
             return codepoints[i];
         }
 
-        public int getLength(){
+        public int getLength() {
             return codepoints.length;
         }
 
-        public String getText(){
+        public String getText() {
             return text;
         }
 
-        public String subStringAt(final int s, final int l){
+        public String subStringAt(final int s, final int l) {
             final StringBuilder sb = new StringBuilder(l);
             for (int i=0; i<l; i++){
                 sb.appendCodePoint(this.codepoints[s+i]);
@@ -143,10 +143,10 @@ public class Homoglyph {
         }
     }
 
-    public static class CachingLookup{
-        private final Map<Integer, Set<Integer>> lookup = new HashMap<Integer, Set<Integer>>();
+    public class CachingLookup {
+        private final Map<Integer, Set<Integer>> lookup = new HashMap<>();
 
-        public Set<Integer> lookup(final int cp){
+        public Set<Integer> lookup(final int cp) {
             Set<Integer> s = lookup.get(cp);
             if (s == null){
                 for (Set<Integer> thisSet : homoglyphs){
@@ -156,7 +156,7 @@ public class Homoglyph {
                     }
                 }
                 if (s == null){
-                    s = new HashSet<Integer>();
+                    s = new HashSet<>();
                     s.add(cp);
                 }
                 lookup.put(cp, s);

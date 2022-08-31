@@ -44,6 +44,12 @@ public class HomoglyphDataTest {
         check("ℭaՏℎ prizes!!", "cash");
     }
 
+    @Test
+    public void testSymmetry(){
+        check("1", "i");
+        check("i", "1");
+    }
+
     private void check(String text, String targetWord){
         List<SearchResult> r = homoglyph.search(text, Arrays.asList(targetWord));
         assertEquals(1, r.size());

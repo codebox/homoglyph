@@ -3,7 +3,7 @@ version = "1.3.0"
 
 apply plugin: 'java'
 apply plugin: 'idea'
-apply plugin: 'maven'
+apply plugin: 'maven-publish'
 apply plugin: 'signing'
 
 sourceSets.main.resources {
@@ -15,11 +15,7 @@ repositories {
 }
 
 dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.11'
-}
-
-signing {
-    sign configurations.archives
+    testImplementation group: 'junit', name: 'junit', version: '4.11'
 }
 
 task javadocJar(type: Jar) {
@@ -36,47 +32,43 @@ artifacts {
     archives javadocJar, sourcesJar
 }
 
-uploadArchives {
-    repositories {
-        mavenDeployer {
-            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
-
-            repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2") {
-                authentication(userName: ossrhUsername, password: ossrhPassword)
-            }
-
-            snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots") {
-                authentication(userName: ossrhUsername, password: ossrhPassword)
-            }
-
-            pom.project {
-                name 'Homoglyph'
-                packaging 'jar'
-                artifactId 'homoglyph'
-                description 'Library providing a homoplyph-aware text search function'
-                url 'https://github.com/codebox/homoglyph'
-
-                scm {
-                    connection 'scm:git@github.com/codebox/homoglyph.git'
-                    developerConnection 'scm:git@github.com/codebox/homoglyph.git'
-                    url 'https://github.com/codebox/homoglyph'
-                }
-
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            pom {
+                name = 'Homoglyph'
+                description = 'Library providing a homoplyph-aware text search function'
+                url = 'https://github.com/codebox/homoglyph'
                 licenses {
                     license {
-                        name 'MIT License'
-                        url 'https://opensource.org/licenses/MIT'
+                        name = 'MIT License'
+                        url = 'https://opensource.org/licenses/MIT'
                     }
                 }
-
                 developers {
                     developer {
-                        id 'codebox'
-                        name 'Rob Dawson'
-                        email 'rob@codebox.net'
+                        id = 'codebox'
+                        name = 'Rob Dawson'
+                        email = 'rob@codebox.net'
                     }
+                }
+                scm {
+                    connection = 'scm:git@github.com/codebox/homoglyph.git'
+                    developerConnection = 'scm:git@github.com/codebox/homoglyph.git'
+                    url = 'https://github.com/codebox/homoglyph'
                 }
             }
         }
     }
+    repositories {
+        maven {
+            def releasesRepoUrl = "https://oss.sonatype.org/service/local/staging/deploy/maven2"
+            def snapshotsRepoUrl = "https://oss.sonatype.org/content/repositories/snapshots"
+            url = version.endsWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
+        }
+    }
+}
+
+signing {
+    sign publishing.publications.mavenJava
 }

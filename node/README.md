@@ -40,3 +40,4 @@ As well as creating general confusion, homoglyphs can cause particular problems 
 * 1.0.3 Added engines config to package.json
 * 1.0.4 Added example code with Tonic integration
 * 1.2.1 Updates to homoglyph list, minor code changes
+* 1.3.0 Updates to homoglyph list, new confusables

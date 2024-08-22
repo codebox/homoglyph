@@ -8,7 +8,7 @@ Include the Homoglyph library in your project by downloading it from Maven Centr
 <dependency>
     <groupId>net.codebox</groupId>
     <artifactId>homoglyph</artifactId>
-    <version>1.1.1</version>
+    <version>1.2.1</version>
 </dependency>
 ```
 

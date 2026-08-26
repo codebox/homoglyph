@@ -20,3 +20,9 @@ if __name__ == '__main__':
     OutputJS('homoglyph.js', 'javascript/src', TEMPLATES_DIR).create(cm, CHARS)
     OutputJS('index.js','node', TEMPLATES_DIR).create(cm, CHARS)
     OutputJSTests('DataTests.js','javascript/tests/js/tests', TEMPLATES_DIR).create(cm, CHARS)
+    # The Node test spec is the same data-driven test as the browser one, but loads
+    # the module via require() so that `npm test` exercises the generated node/index.js.
+    OutputJSTests('DataTests.js', 'node/test/spec', TEMPLATES_DIR).create(
+        cm, CHARS,
+        prelude="var homoglyphSearch = require('../../index');\n\n",
+        search_call='homoglyphSearch.search')

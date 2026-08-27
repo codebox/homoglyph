@@ -1,0 +1,142 @@
+#
+# Each line in this file maps a single 'glyph' character to a sequence of prototype
+# characters that it resembles (a multi-codepoint confusable). The line format is:
+#
+#     <glyph codepoint>;<space separated prototype codepoints>
+#
+# all codepoint values are given in hexadecimal. For example the line "fb03;66 66 69"
+# records that 'ﬃ' (U+FB03) resembles the three characters "ffi".
+#
+# Only confusables whose prototype sequence is made up of ordinary word characters
+# (letters, digits, '-' and '.') are included, since a prototype containing e.g. a
+# combining mark can never occur in a searchable target word.
+#
+# This file was automatically generated, be careful about editing it - your changes may be
+# overwritten if someone runs the generator script again.
+#
+# Source code for this project available from: http://github.com/codebox/homoglyph
+#
+6d;72 6e
+c6;41 45
+e6;61 65
+132;6c 4a
+133;69 6a
+152;4f 45
+153;6f 65
+1c1;6c 6c
+1c7;4c 4a
+1c8;4c 6a
+1c9;6c 6a
+1ca;4e 4a
+1cb;4e 6a
+1cc;6e 6a
+1f1;44 5a
+1f2;44 7a
+1f3;64 7a
+2a3;64 7a
+2a6;74 73
+2aa;6c 73
+2ab;6c 7a
+42b;62 6c
+42e;6c 4f
+4d4;41 45
+4d5;61 65
+5f0;6c 6c
+1d6b;75 65
+2016;6c 6c
+2025;2e 2e
+2026;2e 2e 2e
+20a8;52 73
+20b6;6c 74
+2116;4e 6f
+2121;54 45 4c
+213b;46 41 58
+2161;6c 6c
+2162;6c 6c 6c
+2163;6c 56
+2165;56 6c
+2166;56 6c 6c
+2167;56 6c 6c 6c
+2168;6c 58
+216a;58 6c
+216b;58 6c 6c
+2171;69 69
+2172;69 69 69
+2173;69 76
+2175;76 69
+2176;76 69 69
+2177;76 69 69 69
+2178;69 78
+217a;78 69
+217b;78 69 69
+217f;72 6e
+221e;6f 6f
+2225;6c 6c
+2488;6c 2e
+2489;32 2e
+248a;33 2e
+248b;34 2e
+248c;35 2e
+248d;36 2e
+248e;37 2e
+248f;38 2e
+2490;39 2e
+2491;6c 4f 2e
+2492;6c 6c 2e
+2493;6c 32 2e
+2494;6c 33 2e
+2495;6c 34 2e
+2496;6c 35 2e
+2497;6c 36 2e
+2498;6c 37 2e
+2499;6c 38 2e
+249a;6c 39 2e
+249b;32 4f 2e
+a4fa;2e 2e
+a4fe;2d 2e
+a698;4f 4f
+a699;6f 6f
+a728;54 33
+a732;41 41
+a733;61 61
+a734;41 4f
+a735;61 6f
+a736;41 55
+a737;61 75
+a738;41 56
+a739;61 76
+a73a;41 56
+a73b;61 76
+a73c;41 59
+a73d;61 79
+a74e;4f 4f
+a74f;6f 6f
+a777;74 66
+ab63;75 6f
+fb00;66 66
+fb01;66 69
+fb02;66 6c
+fb03;66 66 69
+fb04;66 66 6c
+fb06;73 74
+11700;72 6e
+118e3;72 6e
+1d426;72 6e
+1d45a;72 6e
+1d48e;72 6e
+1d4c2;72 6e
+1d4f6;72 6e
+1d52a;72 6e
+1d55e;72 6e
+1d592;72 6e
+1d5c6;72 6e
+1d5fa;72 6e
+1d62e;72 6e
+1d662;72 6e
+1d696;72 6e
+1f100;4f 2e
+1f700;51 45
+1f707;41 52
+1f75c;73 73 73
+1f76b;4d 42
+1f76c;56 42

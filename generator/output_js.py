@@ -9,8 +9,11 @@ class OutputJS(OutputBuilder):
         m = {}
         for char in chars:
             s = char_manager.get_set_for_char(char)
-            # Sort so the generated output is deterministic across runs.
-            m[char] = sorted(filter(lambda c : c != char, s))
+            # Sort by codepoint so the generated output is deterministic (independent
+            # of Python's set iteration order / PYTHONHASHSEED) and regeneration is
+            # byte-for-byte reproducible. Ordering does not affect behaviour because
+            # lookups are membership tests.
+            m[char] = sorted(filter(lambda c : c != char, s), key=ord)
         return m
 
     def _make_json_object_string(self, m):

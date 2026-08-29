@@ -1,0 +1,18 @@
+#
+# Each line in this file maps a single 'glyph' character to a sequence of prototype
+# characters that it resembles (a multi-codepoint confusable). The line format is:
+#
+#     <glyph codepoint>;<space separated prototype codepoints>
+#
+# all codepoint values are given in hexadecimal. For example the line "fb03;66 66 69"
+# records that 'ﬃ' (U+FB03) resembles the three characters "ffi".
+#
+# Only confusables whose prototype sequence is made up of ordinary word characters
+# (letters, digits, '-' and '.') are included, since a prototype containing e.g. a
+# combining mark can never occur in a searchable target word.
+#
+# This file was automatically generated, be careful about editing it - your changes may be
+# overwritten if someone runs the generator script again.
+#
+# Source code for this project available from: http://github.com/codebox/homoglyph
+#

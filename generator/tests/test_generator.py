@@ -29,6 +29,7 @@ SOURCE_FILE = os.path.join(REPO_ROOT, 'generator', 'source_data', 'confusables.t
 GENERATED_FILES = [
     'raw_data/char_codes.txt',
     'raw_data/chars.txt',
+    'raw_data/multi_char_codes.txt',
     'javascript/src/homoglyph.js',
     'node/index.js',
     'javascript/tests/js/tests/DataTests.js',

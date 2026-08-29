@@ -1,29 +1,70 @@
-var buildSearchFunction = function(charMap) {
-    function hasWordAtStart(symbols, word) {
-        if (word.length == 0) {
-            return true;
-        }
-        var textChar = symbols[0],
-            wordCharLower = word[0].toLowerCase(),
-            wordCharUpper = word[0].toUpperCase(),
-            firstCharMatches =
-                (textChar == wordCharLower) || (charMap[wordCharLower] && charMap[wordCharLower].indexOf(textChar) >= 0) ||
-                (textChar == wordCharUpper) || (charMap[wordCharUpper] && charMap[wordCharUpper].indexOf(textChar) >= 0);
+var buildSearchFunction = function(charMap, multiCharMap) {
+    multiCharMap = multiCharMap || {};
 
-        return firstCharMatches && hasWordAtStart(symbols.slice(1), word.substr(1));
+    function singleCharMatches(textChar, wordChar) {
+        var wordCharLower = wordChar.toLowerCase(),
+            wordCharUpper = wordChar.toUpperCase();
+        return (textChar == wordCharLower) || (charMap[wordCharLower] && charMap[wordCharLower].indexOf(textChar) >= 0) ||
+               (textChar == wordCharUpper) || (charMap[wordCharUpper] && charMap[wordCharUpper].indexOf(textChar) >= 0);
     }
+
+    function wordStartsWithPrototype(word, wordIndex, prototype) {
+        if (wordIndex + prototype.length > word.length) {
+            return false;
+        }
+        return word.substr(wordIndex, prototype.length).toLowerCase() === prototype.toLowerCase();
+    }
+
+    // Attempts to match word[wordIndex..] starting at symbols[symbolIndex], returning the number of
+    // symbols consumed on success or -1 on failure. A single symbol usually matches a single word
+    // character, but a multi-codepoint confusable (e.g. 'ﬃ' for "ffi") lets one symbol stand in for
+    // a run of word characters. Alternatives are explored with backtracking.
+    function matchLengthAt(symbols, symbolIndex, word, wordIndex) {
+        if (wordIndex >= word.length) {
+            return 0;
+        }
+        if (symbolIndex >= symbols.length) {
+            return -1;
+        }
+        var textChar = symbols[symbolIndex];
+
+        if (singleCharMatches(textChar, word[wordIndex])) {
+            var rest = matchLengthAt(symbols, symbolIndex + 1, word, wordIndex + 1);
+            if (rest >= 0) {
+                return rest + 1;
+            }
+        }
+
+        var prototypes = multiCharMap[textChar];
+        if (prototypes) {
+            for (var p = 0; p < prototypes.length; p++) {
+                var prototype = prototypes[p];
+                if (wordStartsWithPrototype(word, wordIndex, prototype)) {
+                    var restMulti = matchLengthAt(symbols, symbolIndex + 1, word, wordIndex + prototype.length);
+                    if (restMulti >= 0) {
+                        return restMulti + 1;
+                    }
+                }
+            }
+        }
+
+        return -1;
+    }
+
     function checkForWord(symbols, word) {
-        var wordLength = word.length, matches = [], i = 0;
-        while (symbols.length >= wordLength) {
-            if (hasWordAtStart(symbols, word)){
+        var matches = [];
+        if (word.length === 0) {
+            return matches;
+        }
+        for (var i = 0; i < symbols.length; i++) {
+            var length = matchLengthAt(symbols, i, word, 0);
+            if (length >= 1) {
                 matches.push({
-                    match : symbols.slice(0, word.length).join(''),
+                    match : symbols.slice(i, i + length).join(''),
                     word : word,
                     index : i
                 });
             }
-            symbols = symbols.slice(1)
-            i++;
         }
         return matches;
     }
@@ -112,4 +153,129 @@ var search = buildSearchFunction({
     "x": ["\u{00d7}", "\u{0445}", "\u{1541}", "\u{157d}", "\u{166e}", "\u{2179}", "\u{292b}", "\u{292c}", "\u{2a2f}", "\u{ff58}", "\u{1d431}", "\u{1d465}", "\u{1d499}", "\u{1d4cd}", "\u{1d501}", "\u{1d535}", "\u{1d569}", "\u{1d59d}", "\u{1d5d1}", "\u{1d605}", "\u{1d639}", "\u{1d66d}", "\u{1d6a1}"],
     "y": ["\u{0263}", "\u{028f}", "\u{03b3}", "\u{0443}", "\u{04af}", "\u{10e7}", "\u{1d8c}", "\u{1eff}", "\u{213d}", "\u{2ca9}", "\u{ab5a}", "\u{ff59}", "\u{118dc}", "\u{1d432}", "\u{1d466}", "\u{1d49a}", "\u{1d4ce}", "\u{1d502}", "\u{1d536}", "\u{1d56a}", "\u{1d59e}", "\u{1d5d2}", "\u{1d606}", "\u{1d63a}", "\u{1d66e}", "\u{1d6a2}", "\u{1d6c4}", "\u{1d6fe}", "\u{1d738}", "\u{1d772}", "\u{1d7ac}"],
     "z": ["\u{1d22}", "\u{ab93}", "\u{ff5a}", "\u{118c4}", "\u{1d433}", "\u{1d467}", "\u{1d49b}", "\u{1d4cf}", "\u{1d503}", "\u{1d537}", "\u{1d56b}", "\u{1d59f}", "\u{1d5d3}", "\u{1d607}", "\u{1d63b}", "\u{1d66f}", "\u{1d6a3}"]
+}, {
+    "\u{006d}": ["\u{0072}\u{006e}"],
+    "\u{00c6}": ["\u{0041}\u{0045}"],
+    "\u{00e6}": ["\u{0061}\u{0065}"],
+    "\u{0132}": ["\u{006c}\u{004a}"],
+    "\u{0133}": ["\u{0069}\u{006a}"],
+    "\u{0152}": ["\u{004f}\u{0045}"],
+    "\u{0153}": ["\u{006f}\u{0065}"],
+    "\u{01c1}": ["\u{006c}\u{006c}"],
+    "\u{01c7}": ["\u{004c}\u{004a}"],
+    "\u{01c8}": ["\u{004c}\u{006a}"],
+    "\u{01c9}": ["\u{006c}\u{006a}"],
+    "\u{01ca}": ["\u{004e}\u{004a}"],
+    "\u{01cb}": ["\u{004e}\u{006a}"],
+    "\u{01cc}": ["\u{006e}\u{006a}"],
+    "\u{01f1}": ["\u{0044}\u{005a}"],
+    "\u{01f2}": ["\u{0044}\u{007a}"],
+    "\u{01f3}": ["\u{0064}\u{007a}"],
+    "\u{02a3}": ["\u{0064}\u{007a}"],
+    "\u{02a6}": ["\u{0074}\u{0073}"],
+    "\u{02aa}": ["\u{006c}\u{0073}"],
+    "\u{02ab}": ["\u{006c}\u{007a}"],
+    "\u{042b}": ["\u{0062}\u{006c}"],
+    "\u{042e}": ["\u{006c}\u{004f}"],
+    "\u{04d4}": ["\u{0041}\u{0045}"],
+    "\u{04d5}": ["\u{0061}\u{0065}"],
+    "\u{05f0}": ["\u{006c}\u{006c}"],
+    "\u{1d6b}": ["\u{0075}\u{0065}"],
+    "\u{2016}": ["\u{006c}\u{006c}"],
+    "\u{2025}": ["\u{002e}\u{002e}"],
+    "\u{2026}": ["\u{002e}\u{002e}\u{002e}"],
+    "\u{20a8}": ["\u{0052}\u{0073}"],
+    "\u{20b6}": ["\u{006c}\u{0074}"],
+    "\u{2116}": ["\u{004e}\u{006f}"],
+    "\u{2121}": ["\u{0054}\u{0045}\u{004c}"],
+    "\u{213b}": ["\u{0046}\u{0041}\u{0058}"],
+    "\u{2161}": ["\u{006c}\u{006c}"],
+    "\u{2162}": ["\u{006c}\u{006c}\u{006c}"],
+    "\u{2163}": ["\u{006c}\u{0056}"],
+    "\u{2165}": ["\u{0056}\u{006c}"],
+    "\u{2166}": ["\u{0056}\u{006c}\u{006c}"],
+    "\u{2167}": ["\u{0056}\u{006c}\u{006c}\u{006c}"],
+    "\u{2168}": ["\u{006c}\u{0058}"],
+    "\u{216a}": ["\u{0058}\u{006c}"],
+    "\u{216b}": ["\u{0058}\u{006c}\u{006c}"],
+    "\u{2171}": ["\u{0069}\u{0069}"],
+    "\u{2172}": ["\u{0069}\u{0069}\u{0069}"],
+    "\u{2173}": ["\u{0069}\u{0076}"],
+    "\u{2175}": ["\u{0076}\u{0069}"],
+    "\u{2176}": ["\u{0076}\u{0069}\u{0069}"],
+    "\u{2177}": ["\u{0076}\u{0069}\u{0069}\u{0069}"],
+    "\u{2178}": ["\u{0069}\u{0078}"],
+    "\u{217a}": ["\u{0078}\u{0069}"],
+    "\u{217b}": ["\u{0078}\u{0069}\u{0069}"],
+    "\u{217f}": ["\u{0072}\u{006e}"],
+    "\u{221e}": ["\u{006f}\u{006f}"],
+    "\u{2225}": ["\u{006c}\u{006c}"],
+    "\u{2488}": ["\u{006c}\u{002e}"],
+    "\u{2489}": ["\u{0032}\u{002e}"],
+    "\u{248a}": ["\u{0033}\u{002e}"],
+    "\u{248b}": ["\u{0034}\u{002e}"],
+    "\u{248c}": ["\u{0035}\u{002e}"],
+    "\u{248d}": ["\u{0036}\u{002e}"],
+    "\u{248e}": ["\u{0037}\u{002e}"],
+    "\u{248f}": ["\u{0038}\u{002e}"],
+    "\u{2490}": ["\u{0039}\u{002e}"],
+    "\u{2491}": ["\u{006c}\u{004f}\u{002e}"],
+    "\u{2492}": ["\u{006c}\u{006c}\u{002e}"],
+    "\u{2493}": ["\u{006c}\u{0032}\u{002e}"],
+    "\u{2494}": ["\u{006c}\u{0033}\u{002e}"],
+    "\u{2495}": ["\u{006c}\u{0034}\u{002e}"],
+    "\u{2496}": ["\u{006c}\u{0035}\u{002e}"],
+    "\u{2497}": ["\u{006c}\u{0036}\u{002e}"],
+    "\u{2498}": ["\u{006c}\u{0037}\u{002e}"],
+    "\u{2499}": ["\u{006c}\u{0038}\u{002e}"],
+    "\u{249a}": ["\u{006c}\u{0039}\u{002e}"],
+    "\u{249b}": ["\u{0032}\u{004f}\u{002e}"],
+    "\u{a4fa}": ["\u{002e}\u{002e}"],
+    "\u{a4fe}": ["\u{002d}\u{002e}"],
+    "\u{a698}": ["\u{004f}\u{004f}"],
+    "\u{a699}": ["\u{006f}\u{006f}"],
+    "\u{a728}": ["\u{0054}\u{0033}"],
+    "\u{a732}": ["\u{0041}\u{0041}"],
+    "\u{a733}": ["\u{0061}\u{0061}"],
+    "\u{a734}": ["\u{0041}\u{004f}"],
+    "\u{a735}": ["\u{0061}\u{006f}"],
+    "\u{a736}": ["\u{0041}\u{0055}"],
+    "\u{a737}": ["\u{0061}\u{0075}"],
+    "\u{a738}": ["\u{0041}\u{0056}"],
+    "\u{a739}": ["\u{0061}\u{0076}"],
+    "\u{a73a}": ["\u{0041}\u{0056}"],
+    "\u{a73b}": ["\u{0061}\u{0076}"],
+    "\u{a73c}": ["\u{0041}\u{0059}"],
+    "\u{a73d}": ["\u{0061}\u{0079}"],
+    "\u{a74e}": ["\u{004f}\u{004f}"],
+    "\u{a74f}": ["\u{006f}\u{006f}"],
+    "\u{a777}": ["\u{0074}\u{0066}"],
+    "\u{ab63}": ["\u{0075}\u{006f}"],
+    "\u{fb00}": ["\u{0066}\u{0066}"],
+    "\u{fb01}": ["\u{0066}\u{0069}"],
+    "\u{fb02}": ["\u{0066}\u{006c}"],
+    "\u{fb03}": ["\u{0066}\u{0066}\u{0069}"],
+    "\u{fb04}": ["\u{0066}\u{0066}\u{006c}"],
+    "\u{fb06}": ["\u{0073}\u{0074}"],
+    "\u{11700}": ["\u{0072}\u{006e}"],
+    "\u{118e3}": ["\u{0072}\u{006e}"],
+    "\u{1d426}": ["\u{0072}\u{006e}"],
+    "\u{1d45a}": ["\u{0072}\u{006e}"],
+    "\u{1d48e}": ["\u{0072}\u{006e}"],
+    "\u{1d4c2}": ["\u{0072}\u{006e}"],
+    "\u{1d4f6}": ["\u{0072}\u{006e}"],
+    "\u{1d52a}": ["\u{0072}\u{006e}"],
+    "\u{1d55e}": ["\u{0072}\u{006e}"],
+    "\u{1d592}": ["\u{0072}\u{006e}"],
+    "\u{1d5c6}": ["\u{0072}\u{006e}"],
+    "\u{1d5fa}": ["\u{0072}\u{006e}"],
+    "\u{1d62e}": ["\u{0072}\u{006e}"],
+    "\u{1d662}": ["\u{0072}\u{006e}"],
+    "\u{1d696}": ["\u{0072}\u{006e}"],
+    "\u{1f100}": ["\u{004f}\u{002e}"],
+    "\u{1f700}": ["\u{0051}\u{0045}"],
+    "\u{1f707}": ["\u{0041}\u{0052}"],
+    "\u{1f75c}": ["\u{0073}\u{0073}\u{0073}"],
+    "\u{1f76b}": ["\u{004d}\u{0042}"],
+    "\u{1f76c}": ["\u{0056}\u{0042}"]
 });

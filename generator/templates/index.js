@@ -1,32 +1,75 @@
 module.exports = (function(){
-    var CHAR_MAP = [[chars_json]];      
+    var CHAR_MAP = [[chars_json]];
 
-    function buildSearchFunction(charMap) {
-        function hasWordAtStart(symbols, word) {
-            if (word.length == 0) {
-                return true;
-            }
-            var textChar = symbols[0],
-                wordCharLower = word[0].toLowerCase(),
-                wordCharUpper = word[0].toUpperCase(),
-                firstCharMatches =
-                    (textChar == wordCharLower) || (charMap[wordCharLower] && charMap[wordCharLower].indexOf(textChar) >= 0) ||
-                    (textChar == wordCharUpper) || (charMap[wordCharUpper] && charMap[wordCharUpper].indexOf(textChar) >= 0);
+    var MULTI_CHAR_MAP = [[multi_chars_json]];
 
-            return firstCharMatches && hasWordAtStart(symbols.slice(1), word.substr(1));
+    function buildSearchFunction(charMap, multiCharMap) {
+        multiCharMap = multiCharMap || {};
+
+        function singleCharMatches(textChar, wordChar) {
+            var wordCharLower = wordChar.toLowerCase(),
+                wordCharUpper = wordChar.toUpperCase();
+            return (textChar == wordCharLower) || (charMap[wordCharLower] && charMap[wordCharLower].indexOf(textChar) >= 0) ||
+                   (textChar == wordCharUpper) || (charMap[wordCharUpper] && charMap[wordCharUpper].indexOf(textChar) >= 0);
         }
+
+        function wordStartsWithPrototype(word, wordIndex, prototype) {
+            if (wordIndex + prototype.length > word.length) {
+                return false;
+            }
+            return word.substr(wordIndex, prototype.length).toLowerCase() === prototype.toLowerCase();
+        }
+
+        // Attempts to match word[wordIndex..] starting at symbols[symbolIndex], returning the number of
+        // symbols consumed on success or -1 on failure. A single symbol usually matches a single word
+        // character, but a multi-codepoint confusable (e.g. 'ﬃ' for "ffi") lets one symbol stand in for
+        // a run of word characters. Alternatives are explored with backtracking.
+        function matchLengthAt(symbols, symbolIndex, word, wordIndex) {
+            if (wordIndex >= word.length) {
+                return 0;
+            }
+            if (symbolIndex >= symbols.length) {
+                return -1;
+            }
+            var textChar = symbols[symbolIndex];
+
+            if (singleCharMatches(textChar, word[wordIndex])) {
+                var rest = matchLengthAt(symbols, symbolIndex + 1, word, wordIndex + 1);
+                if (rest >= 0) {
+                    return rest + 1;
+                }
+            }
+
+            var prototypes = multiCharMap[textChar];
+            if (prototypes) {
+                for (var p = 0; p < prototypes.length; p++) {
+                    var prototype = prototypes[p];
+                    if (wordStartsWithPrototype(word, wordIndex, prototype)) {
+                        var restMulti = matchLengthAt(symbols, symbolIndex + 1, word, wordIndex + prototype.length);
+                        if (restMulti >= 0) {
+                            return restMulti + 1;
+                        }
+                    }
+                }
+            }
+
+            return -1;
+        }
+
         function checkForWord(symbols, word) {
-            var wordLength = word.length, matches = [], i = 0;
-            while (symbols.length >= wordLength) {
-                if (hasWordAtStart(symbols, word)){
+            var matches = [];
+            if (word.length === 0) {
+                return matches;
+            }
+            for (var i = 0; i < symbols.length; i++) {
+                var length = matchLengthAt(symbols, i, word, 0);
+                if (length >= 1) {
                     matches.push({
-                        match : symbols.slice(0, word.length).join(''),
+                        match : symbols.slice(i, i + length).join(''),
                         word : word,
                         index : i
                     });
                 }
-                symbols = symbols.slice(1)
-                i++;
             }
             return matches;
         }
@@ -51,6 +94,6 @@ module.exports = (function(){
 
     return {
         buildSearchFunction : buildSearchFunction,
-        search : buildSearchFunction(CHAR_MAP)
+        search : buildSearchFunction(CHAR_MAP, MULTI_CHAR_MAP)
     }
 }());

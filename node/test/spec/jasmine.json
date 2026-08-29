@@ -2,7 +2,8 @@
     "spec_dir": "spec",
     "spec_files": [
         "DataTests.js",
-        "JSTests.js"
+        "JSTests.js",
+        "MultiCharTests.js"
     ],
     "helpers": [
     ]
